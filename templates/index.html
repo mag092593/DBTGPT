@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Miyo's Chat</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f0e1f2; /* Soft purple background */
+        }
+        .chat-container {
+            background-color: #ffffff;
+            border: 1px solid #d1c4e9;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 50px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .chat-header {
+            font-family: 'Cursive', sans-serif;
+            color: #8c7b96;
+        }
+        .chat-output {
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #d1c4e9;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .chat-input {
+            width: 80%;
+            border-radius: 10px;
+            border: 1px solid #d1c4e9;
+            padding: 5px;
+        }
+        .send-button {
+            background-color: #d1c4e9;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="chat-container">
+        <h2 class="chat-header">Chat with Miyo</h2>
+        <div class="chat-output" id="chat-output">
+            <!-- Chat messages will be appended here -->
+        </div>
+        <form id="chat-form">
+            <input type="text" class="chat-input" name="input" placeholder="Type your message..." required>
+            <button type="submit" class="send-button">Send</button>
+        </form>
+    </div>
+</div>
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#chat-form').on('submit', function(e){
+            e.preventDefault();
+            var user_input = $('input[name=input]').val();
+            $.post('/chat', {input: user_input}, function(response){
+                $('#chat-output').append('<p><strong>You:</strong> ' + user_input + '</p>');
+                $('#chat-output').append('<p><strong>Miyo:</strong> ' + response.reply + '</p>');
+                $('input[name=input]').val('');
+            });
+        });
+    });
+</script>
+</body>
+</html>
